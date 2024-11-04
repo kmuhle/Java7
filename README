@@ -1,0 +1,146 @@
+Assignment 5
+Kalyn Muhlenberg
+Kalyn.muhlenberg@tufts.edu
+
+NOTE: I am using one of my tokens for this assignment!
+
+How to run:
+  - To build, execute javac *.java 
+  - To run, execute java Main
+
+Simulation Overview:
+  - I decided to do a fishing simulator game where players have to 
+  navigate the open seas, tracking both fish and enemy ships using two 
+  different radars. The objective is to catch and sell as many fish as 
+  possible by locating them on the Fish Radar and casting a line, all 
+  while avoiding collisions with other ships using the Ship Radar. The 
+  challenging part is that players can only view one radar at a time. To
+  succeed, players must strategically switch between the Fish Radar to 
+  locate fish and the Ship Radar to avoid enemies. The player moves using the 
+  arrow keys. Each fish they catch is sold for a different amount of money 
+  depending on the size. They can use their money to purchase fish traps that 
+  can assist them in getting more fish. 
+
+New This Week:
+  - This week I added a new vehicle to the simulation, which are FishTraps. 
+  These are traps that the player can place on the fish radar to help catch 
+  fish. In the future, the fish traps will catch a certain number of fish
+  (depending on the type of fish trap purchased) without the player needing to 
+  manually catch them. To place the fish traps, players click the "Purchase 
+  Fish Traps" button in the controls panel at the bottom, and a dialog box 
+  popup appears, and allows them to choose the type of fish traps (which have 
+  different prices), and choose x and y coordinates of where they want to place 
+  the trap. In the future I would like to implement mouse placement (where the 
+  user clicks in the radar where they want the trap to go) for more precision 
+  trap placement. 
+  - I added a timer to my simulation which allows the vehicles to move. On each 
+  clock tick, the vehicles positions are updated depending on their direction 
+  and speed, and then the canvases are redrawn. If they reach the edge of the 
+  radar, they will change directions and go the other way. 
+  - I also simplified my vehicle and radar drawing logic. I previously was 
+  doing a lot of overly complicated math and commands to change the vehicles 
+  directions, size, location, etc, so I switched over to simply scaling and 
+  tranforming the graphics objects themselves rather than the positons/sizes. 
+  - I made the Pause/Play button and restart button functional. The pause/play 
+  will simpy start or stop the movement of the vehicles depending on the 
+  current status, and the text on the button will update accordingly. The 
+  restart button will completely reset the simulation, making new vehicles and 
+  resetting all stats. 
+  - Some controls can also now only be used in certain situations. The speed 
+  slider and cast line controls can only be used while the simulation is 
+  actively running. And the Purchase Fish Trap button can only be pressed when 
+  the player is on the fish radar, not ship radar. 
+  - I slightly rearranged the layout of the simulation. I moved the Pause/Play 
+  button and the restart button to the menu bar because they are more important 
+  controls. 
+  - I also moved the color chooser for changing the players color into a dialog 
+  box popup because it was taking up too much room. 
+  - The window is usable both in full screen and at much smaller sizes, with 
+  the radars staying within view and simply shrinking as the window gets 
+  smaller. 
+
+  
+Layout:
+  - At the top of the window is a menu bar. Under the file dropdown, the users
+   can quit the window. Under the Mode drop down, users can select between 
+   dark mode and light mode for different color schemes. Next to that are two 
+   buttons Pause/Play and Restart which control when the simulation is active / 
+   is reset. 
+  - To the left/center of the window is the radar panel. There are two 
+  radars, the ship radar and the fish radar. The player can switch between 
+  the two using either the tabs at the top of the pane or by pressing the 
+  space bar. 
+  - To the right of the window is the control panel. The control panel has a 
+  button for the player to cast a line (catch a fish they collide with, to be 
+  implemented in the future). Then there is a button which opens up a dialog 
+  box that allows the user to purchase and position a fishing trap. Then there 
+  is a button which opens a dialog box with a color chooser, where the player 
+  can choose the color of their icon. There are also two slider bars. The first 
+  allows the player to adjust their indicator's speed, and the other lets them 
+  zoom in and out of the radars. And finally there is a section that houses the 
+  users stats, which include the number of fish they've caught, the amount of 
+  money they've earned from those fish (to be determined by the size of the 
+  fish), and the number of lives they have left (every time they hit another 
+  ship they lose a life).
+
+Current Functions:
+  - Players are able to switch between fish radar and ship radar using 
+  the space bar
+  - Radar and fish/ships resize when the player zooms in/out
+  - The radar dynamically resizes when the window resizes 
+  - Players can choose between light and dark mode color schemes 
+  - Player can move their indicator using the arrow keys
+  - Player can adjust their circle indicator's color with the color chooser 
+  and they can adjust their movement speed with the speed slider. 
+  - Player can purchase and place a fishing trap 
+  - Vehicles move around the radar, bounded by the largest radar circle
+
+Functions to be implemented: 
+  - Collision detection with player and fish/ships and then fish traps with fish
+  - Updating statistics when player catches a fish/ hits a ship
+  - Enforcing only being able to purchase fish traps with enough money
+  - Adding a lose state when they hit 3 ships
+
+Inheritance Hierarchy:
+  - Main inherits from JFrame
+  - MenuBar inherits from JMenuBar
+  - ControlPanel inherits from JPanel
+  - SimPanel inherits from JTabbedPane
+  - RadarCanavs inherits from JPanel
+  - Vehicle does not inherit from anything
+  - Fish, Ship, and FishTrap inherit from Vehicle
+  - Button inherits from JButton
+  - ZoomSlider inherits from JSlider 
+  - SpeedSlider inherits from JSlider 
+  - ColorChooser inherits from JColorChooser
+  - StatsDisplay inherits from JPanel
+  - SimulationModel does not inherit from anything
+  - Player does not inherit from anything
+  - FishTrapDialogBox inherits from JDialog
+
+
+Aggregation hierarchy:
+  - Main has objects of JLabel, MenuBar, ControlPanel, SimPanel, 
+    SimulationModel
+  - MenuBar has objects of SimulationModel, JMenu, JMenuItem, Button
+  - ControlPanel has objects of SimulationModel, Button, SpeedSlider, 
+    ZoomSlider, ColorChooser, StatsDisplay, FishTrapDialogBox, JDialog
+  - SimPanel has objects of SimulationModel, RadarCanavs
+  - SimulationModel has objects of Vehicle, Fish, Ship, Color, Timer, 
+    ArrayList, RadarCanvas, Player, FishTrap
+  - RadarCanavs has objects of SimulationModel, Color, Graphics/Graphics2D
+  - Vehicle has objects of SimulationModel, Color, Random
+  - Fish has objects of SimulationModel, Polygon, Color, Random, (from parent
+    class RadarCanvas)
+  - Ship has objects of SimulationModel, Polygon, Color, Random, (from parent 
+    class RadarCanvas)
+  - FishTrap has objects of SimulationModel, Polygon, Color, Random, (from 
+    parent class RadarCanvas)
+  - Player has objects of SimulationModel, Color
+  - SpeedSlider has objects of SimulationModel
+  - ZoomSlider has objects of SimulationModel
+  - ColorChooser has objects of SimulationModel
+  - Button has objects of SimulationModel
+  - StatsDisplay has objects of SimulationModel, JLabel
+  - FishTrapDialogBox has objects of SimulationModel, JLabel, JComboBox, 
+    JSpinner, Button
